@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Hello World</title>
+    <script type="text/javascript" src="/js/base.js"></script>
+    <link rel="stylesheet" href="/css/base.css" />
+  </head>
+  <body>
+    <div id="content">
+      <div id="signin">
+        <a href="#" onclick="authenticate();" id="signinButton">Sign in!</a>
+        <span id="userLabel">(not signed in)</span>
+      </div>
+      <div id="gameHistoryWrapper" class="hidden">
+        <h2>Greeting from helloWorld endpoint</h2>
+        <ul id="gameHistory"></ul>
+      </div>
+      <div id="warning">
+        <img src="/images/Haskell.jpg" />
+      </div>
+      
+      <script type="text/javascript">
+        function init() {
+        	helloInit('//' + window.location.host + '/_ah/api');
+        }
+      </script>
+      <script src="https://apis.google.com/js/client.js?onload=init"></script>
+    </div>
+  </body>
+</html>
