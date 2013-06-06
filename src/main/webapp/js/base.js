@@ -53,6 +53,7 @@ userAuthenticated = function() {
 							gapi.auth.setToken(token);
 							signedIn = true;
 							document.getElementById('userLabel').innerHTML = resp.email;
+							document.getElementById('userSigned').innerHTML = '';
 							document.getElementById('signinButton').innerHTML = 'Sign out';
 							document.getElementById('greetingWrapper').classList.remove('hidden');
 							queryGreeting();
@@ -85,9 +86,11 @@ authenticate = function() {
 		signin(false, userAuthenticated);
 	} else {
 		signedIn = false;
-		document.getElementById('userLabel').innerHTML = '(not signed in)';
+		document.getElementById('userSigned').innerHTML = '(not signed in)';
 		document.getElementById('signinButton').innerHTML = 'Sign in';
 		document.getElementById('greetingWrapper').classList.add('hidden');
+		document.getElementById('userLabel').innerHTML = '';
+		document.getElementById('greetingDiv').innerHTML = '';
 	}
 };
 

@@ -37,11 +37,12 @@ body {
   box-orient: horizontal;
   padding: 1em;
   background-color: whiteSmoke;
-  border-bottom: 15pt solid #E5E5E5;
+  border-bottom: 1pt solid #E5E5E5;
 }
 
 #greetingWrapper {
   background-color: whiteSmoke;
+  margin:5pt;
 }
 
 /* Initial element visibility */
@@ -66,7 +67,7 @@ body {
   background-color: whiteSmoke;
   color: #white;
 }
-#greetingDiv {
+.divInfo {
   font-size: 12pt;
   font-weight: bold;
   padding: 0pt;
