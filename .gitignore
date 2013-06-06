@@ -10,3 +10,5 @@ appengine-generated/
 .class
 .project
 bin
+.classpath
+eclipse-launch-profiles/
