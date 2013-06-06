@@ -1,4 +1,4 @@
-/* Copyright 2013 Google Inc. All Rights Reserved.
+/* Copyright 2013 Sfeir Inc. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -54,9 +54,7 @@ userAuthenticated = function() {
 							signedIn = true;
 							document.getElementById('userLabel').innerHTML = resp.email;
 							document.getElementById('signinButton').innerHTML = 'Sign out';
-							document.getElementById('gameHistoryWrapper').classList.remove('hidden');
-					    //	document.getElementById('warning').classList.remove('hidden');
-						//	document.getElementById('warning').classList.add('hidden');
+							document.getElementById('greetingWrapper').classList.remove('hidden');
 							queryGreeting();
 						}
 					});
@@ -85,35 +83,37 @@ signin = function(mode, callback) {
 authenticate = function() {
 	if (!signedIn) {
 		signin(false, userAuthenticated);
-		document.getElementById('gameHistoryWrapper').classList.remove('hidden');
-		//document.getElementById('warning').classList.add('hidden');
 	} else {
 		signedIn = false;
 		document.getElementById('userLabel').innerHTML = '(not signed in)';
 		document.getElementById('signinButton').innerHTML = 'Sign in';
-		document.getElementById('gameHistoryWrapper').classList.add('hidden');
-		document.getElementById('warning').classList.remove('hidden');
+		document.getElementById('greetingWrapper').classList.add('hidden');
 	}
 };
 
 /**
- * Queries for results of previous games.
+ * Queries for greeting the logged user.
+ * 
  */
 queryGreeting = function() {
 	gapi.client.helloWorld.greetings.getGreeting().execute(function(resp) {
-		var history = document.getElementById('gameHistory');
-		history.innerHTML = resp.greeting;
+		var greeting = document.getElementById('greetingDiv');
+		greeting.innerHTML = resp.greeting;
 	});
 };
 
 /**
  * Initializes the application.
- * 
+ * It loads asynchronously all needed libraries
  * @param {string}
  *            apiRoot Root of the API's path.
  */
-helloInit = function(apiRoot) {
+initialize = function(apiRoot) {
 	var apisToLoad;
+	//when all needed libraries are loaded make an attempt to authenticate the user without
+	//displaying a popup(reuse an already existing session)
+	//note that this is not mandatory, we can let the user click on the button sign in and the process of authentication 
+	//starts from there
 	var callback = function() {
 		if (--apisToLoad == 0) {
 			signin(true, userAuthenticated);

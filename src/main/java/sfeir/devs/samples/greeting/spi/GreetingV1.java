@@ -17,6 +17,8 @@ package sfeir.devs.samples.greeting.spi;
 
 import java.io.IOException;
 
+import sfeir.devs.samples.greeting.Greeting;
+
 import com.google.api.server.spi.config.Api;
 import com.google.api.server.spi.config.ApiMethod;
 import com.google.appengine.api.oauth.OAuthRequestException;
@@ -31,7 +33,7 @@ public class GreetingV1 {
 	
 
 	/**
-	 * Provides the ability to query for a collection of Score entities.
+	 * Provides the ability to query for greeting the currently logged user.
 	 * 
 	 * @param user
 	 *            object representing the current user making requests
@@ -39,18 +41,15 @@ public class GreetingV1 {
 	 * @throws OAuthRequestException
 	 *             if the token included in the request is invalid, the client
 	 *             ID included in the token is not in the list of allowed
-	 *             clientIds, or the audience included in the token is not in
-	 *             the list of allowed audiences.
+	 *             clientIds.
 	 * @throws IOException
 	 */
 	@ApiMethod(name = "greetings.getGreeting")
-	public Greeting getGreeting(User user) throws OAuthRequestException, IOException {
-
+	public Greeting getGreeting(final User user) throws OAuthRequestException, IOException {
 		if (user != null) {
 			return Greeting.fromString(user.getNickname()); 
 		} else {
 			throw new OAuthRequestException("Invalid user.");
 		}
 	}
-
 }

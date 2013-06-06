@@ -1,7 +1,7 @@
 appengine-endpoints-backend-java
 ================================
 
-This application implements a simple backend for a Tic Tac Toe game using
+This application implements a simple backend for a greeting api using
 Google Cloud Endpoints, App Engine, and Java.
 
 ## Products
@@ -21,8 +21,8 @@ Google Cloud Endpoints, App Engine, and Java.
 1. Update the values in `src/com/google/devrel/samples/ttt/spi/Ids.java` to
    reflect the respective client IDs you have registered in the
    [APIs Console][4].
-1. Update the value of `google.devrel.samples.ttt.CLIENT_ID` in
-   `war/js/base.js` to reflect the web client ID you have registered in the
+1. Update the value of `CLIENT_ID` in
+   `webapp/js/base.js` to reflect the web client ID you have registered in the
    [APIs Console][4].
 1. mvn clean install
 1. Run the application with `mvn appengine:devserver`, and ensure it's running 
@@ -39,15 +39,16 @@ Google Cloud Endpoints, App Engine, and Java.
 [6]: https://developers.google.com/appengine/docs/java/tools/maven
 
 
-## Steps to deploy TICTACTO
+## Steps to deploy hello world
 ### Create OAuth 2.0 client IDs
  1. Go to https://code.google.com/apis/console
     and create or choose your project (i used the same name for my project as the GAP application name) 
  2. Click on API Access link and fill in all the relevant infomations and click **create a new Oauth2 client ID** or **create anthor client ID**
     - make sur that **web application** is selected
     - click **Your site or hostname (more options)** link and then fill in : 
-       Authorized Redirect URIs : https://oauthcloud-endpoints.appspot.com
+       optional : Authorized Redirect URIs : https://oauthcloud-endpoints.appspot.com
        Authorized JavaScript Origins :  https://oauthcloud-endpoints.appspot.com
+                                        add all urls that will be used to access your app (localhost:8080 for  example to test localy)
       
       Note that this URL corresponds to the one that will be used to access your application on GAP
     - validate your creation
