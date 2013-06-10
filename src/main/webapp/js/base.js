@@ -44,21 +44,20 @@ signedIn = false;
 /**
  * Loads the application UI after the user has completed auth.
  */
-userAuthenticated = function() {
-	var request = gapi.client.oauth2.userinfo.get().execute(
-					function(resp) {
-						if (!resp.code) {
-							var token = gapi.auth.getToken();
-							token.access_token = token.id_token;
-							gapi.auth.setToken(token);
-							signedIn = true;
-							document.getElementById('userLabel').innerHTML = resp.email;
-							document.getElementById('userSigned').innerHTML = '';
-							document.getElementById('signinButton').innerHTML = 'Sign out';
-							document.getElementById('greetingWrapper').classList.remove('hidden');
-							queryGreeting();
-						}
-					});
+userAuthenticated = function($scope, $location) {
+	var request = gapi.client.oauth2.userinfo.get().execute(function(resp) {
+		if (!resp.code) {
+			var token = gapi.auth.getToken();
+			token.access_token = token.id_token;
+			gapi.auth.setToken(token);
+			//console.log(resp.email);
+			queryGreeting($scope);
+			$scope.signed = true ;
+			$location.path('/home');
+			$scope.$apply();
+
+		}
+	});
 };
 
 /**
@@ -81,16 +80,12 @@ signin = function(mode, callback) {
 /**
  * Presents the user with the authorization popup.
  */
-authenticate = function() {
-	if (!signedIn) {
-		signin(false, userAuthenticated);
+authenticate = function($scope, $location) {
+	if (!$scope.signed) {
+		signin(false, userAuthenticated($scope, $location));
 	} else {
-		signedIn = false;
-		document.getElementById('userSigned').innerHTML = '(not signed in)';
-		document.getElementById('signinButton').innerHTML = 'Sign in';
-		document.getElementById('greetingWrapper').classList.add('hidden');
-		document.getElementById('userLabel').innerHTML = '';
-		document.getElementById('greetingDiv').innerHTML = '';
+		$scope.signed = false;
+		$location.path('/login');
 	}
 };
 
@@ -98,28 +93,31 @@ authenticate = function() {
  * Queries for greeting the logged user.
  * 
  */
-queryGreeting = function() {
+queryGreeting = function($scope) {
 	gapi.client.helloWorld.greetings.getGreeting().execute(function(resp) {
-		var greeting = document.getElementById('greetingDiv');
-		greeting.innerHTML = resp.greeting;
+		$scope.greeting = resp.greeting;
+		$scope.$apply();
 	});
 };
 
 /**
- * Initializes the application.
- * It loads asynchronously all needed libraries
+ * Initializes the application. It loads asynchronously all needed libraries
+ * 
  * @param {string}
  *            apiRoot Root of the API's path.
  */
 initialize = function(apiRoot) {
 	var apisToLoad;
-	//when all needed libraries are loaded make an attempt to authenticate the user without
-	//displaying a popup(reuse an already existing session)
-	//note that this is not mandatory, we can let the user click on the button sign in and the process of authentication 
-	//starts from there
+	// when all needed libraries are loaded make an attempt to authenticate the
+	// user without
+	// displaying a popup(reuse an already existing session)
+	// note that this is not mandatory, we can let the user click on the button
+	// sign in and the process of authentication
+	// starts from there
 	var callback = function() {
 		if (--apisToLoad == 0) {
-			signin(true, userAuthenticated);
+			//bootstrap manually angularjs after our api are loaded
+			angular.bootstrap(document, [ "helloapp" ]);
 		}
 	}
 	apisToLoad = 2; // must match number of calls to gapi.client.load()

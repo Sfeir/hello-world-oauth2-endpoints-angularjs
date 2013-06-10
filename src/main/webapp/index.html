@@ -3,35 +3,20 @@
 <head>
 <meta charset="utf-8" />
 <title>Hello World</title>
-<script type="text/javascript" src="/js/base.js"></script>
 <link rel="stylesheet" href="/css/base.css" />
 </head>
 <body>
-	<div id="content">
-		<div id="signin">
-			<a href="#" onclick="authenticate();" id="signinButton">Sign in!</a>
-			<span id="userSigned">(not signed in)</span>
-		</div>
-		<div id="greetingWrapper" class="hidden">
-			<h2>Greeting from helloWorld endpoint</h2>
-		</div>
-		<table>
-			<tr>
-				<td class="divInfo">Nick Name :</td>
-				<td><div id="greetingDiv"></div></td>
-			</tr>
-			<tr>
-				<td class="divInfo">Email :</td>
-				<td><div id="userLabel"></div></td>
-			</tr>
-		</table>
-
-		<script type="text/javascript">
-			function init() {
-				initialize('//' + window.location.host + '/_ah/api');
-			}
-		</script>
-		<script src="https://apis.google.com/js/client.js?onload=init"></script>
-	</div>
+	<script type="text/javascript">
+		function init() {
+			initialize('//' + window.location.host + '/_ah/api');
+		}
+	</script>
+	<script src="https://apis.google.com/js/client.js?onload=init"></script>
+    <script src="/js/angular/angular.js"></script>
+	<script type="text/javascript" src="/js/base.js"></script>
+	<script src="/js/app/app.js"></script>
+	<div id="view" ng-view></div>
 </body>
 </html>
+
+
