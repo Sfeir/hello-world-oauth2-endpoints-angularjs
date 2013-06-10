@@ -22,10 +22,8 @@ app.controller('LoginController', function ($scope, $location,logginService){
 	$scope.auth = logginService.auth();
 });
 
-app.controller('HomeController',function ($scope, $location){
-	if($scope.signed){
-		queryGreeting($scope);	
-	}else {
+app.controller('HomeController',function ($scope, $rootScope, $location){
+	if(!$scope.signed){
 		$location.path('/login');
 	}
 });
