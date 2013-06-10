@@ -35,13 +35,6 @@ SCOPES = 'https://www.googleapis.com/auth/userinfo.email';
 RESPONSE_TYPE = 'token id_token';
 
 /**
- * Whether or not the user is signed in.
- * 
- * @type {boolean}
- */
-signedIn = false;
-
-/**
  * Loads the application UI after the user has completed auth.
  */
 userAuthenticated = function($scope, $location) {
@@ -50,12 +43,12 @@ userAuthenticated = function($scope, $location) {
 			var token = gapi.auth.getToken();
 			token.access_token = token.id_token;
 			gapi.auth.setToken(token);
-			//console.log(resp.email);
+			
 			queryGreeting($scope);
 			$scope.signed = true ;
+			$scope.email = resp.email;
 			$location.path('/home');
 			$scope.$apply();
-
 		}
 	});
 };
@@ -74,7 +67,7 @@ signin = function(mode, callback) {
 		scope : SCOPES,
 		immediate : mode,
 		response_type : RESPONSE_TYPE
-	}, callback);
+	}, callback)
 };
 
 /**
@@ -108,12 +101,6 @@ queryGreeting = function($scope) {
  */
 initialize = function(apiRoot) {
 	var apisToLoad;
-	// when all needed libraries are loaded make an attempt to authenticate the
-	// user without
-	// displaying a popup(reuse an already existing session)
-	// note that this is not mandatory, we can let the user click on the button
-	// sign in and the process of authentication
-	// starts from there
 	var callback = function() {
 		if (--apisToLoad == 0) {
 			//bootstrap manually angularjs after our api are loaded
