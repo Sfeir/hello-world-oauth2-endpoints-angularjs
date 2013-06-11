@@ -12,7 +12,7 @@ var app = angular.module("helloapp",[]).config(function ($routeProvider){
 	$routeProvider.otherwise({redirectTo: '/login'});
 });
 
-app.service('logginService', function( $rootScope, $location) {
+app.service('logginService', function($rootScope, $location) {
 	    this.auth = function (){
 	    	authenticate($rootScope, $location);
 	    };
@@ -22,7 +22,7 @@ app.controller('LoginController', function ($scope, $location,logginService){
 	$scope.auth = logginService.auth();
 });
 
-app.controller('HomeController',function ($scope, $rootScope, $location){
+app.controller('HomeController',function ($scope,$location){
 	if(!$scope.signed){
 		$location.path('/login');
 	}
