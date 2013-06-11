@@ -6,7 +6,7 @@
   <version>1.0</version>
 
   <groupId>com.sfeir.endpoints.demos</groupId>
-  <artifactId>endpoints-hello-world-angularjs</artifactId>
+  <artifactId>hello-world-oauth2-endpoints-angularjs</artifactId>
 
   <properties>
     <appengine.target.version>1.8.0</appengine.target.version>
