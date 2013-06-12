@@ -13,13 +13,13 @@ var app = angular.module("helloapp",[]).config(function ($routeProvider){
 });
 
 app.service('logginService', function($rootScope, $location) {
-	    this.auth = function (){
-	    	authenticate($rootScope, $location);
+	    this.auth = function ($http){
+	    	authenticate($http, $rootScope, $location);
 	    };
 	});
 
-app.controller('LoginController', function ($scope, $location,logginService){
-	$scope.auth = logginService.auth();
+app.controller('LoginController', function ($http, $scope, $location,logginService){
+	$scope.auth = logginService.auth($http);
 });
 
 app.controller('HomeController',function ($scope,$location){

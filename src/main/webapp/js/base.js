@@ -37,20 +37,23 @@ RESPONSE_TYPE = 'token id_token';
 /**
  * Loads the application UI after the user has completed auth.
  */
-userAuthenticated = function($scope, $location) {
-	var request = gapi.client.oauth2.userinfo.get().execute(function(resp) {
-		if (!resp.code) {
-			var token = gapi.auth.getToken();
-			token.access_token = token.id_token;
-			gapi.auth.setToken(token);
-			
-			queryGreeting($scope);
-			$scope.signed = true ;
-			$scope.email = resp.email;
-			$location.path('/home');
-			$scope.$apply();
-		}
-	});
+userAuthenticated = function($http, $scope, $location) {
+	var request = gapi.client.oauth2.userinfo
+			.get()
+			.execute(function(resp) {
+						if (!resp.code) {
+							var token = gapi.auth.getToken();
+							$http.defaults.headers.common['Authorization'] = '  Bearer '
+									+ token.id_token;
+							
+							$scope.signed = true;
+							$scope.email = resp.email;
+							queryGreeting($http, $scope);
+							
+							$location.path('/home');
+							$scope.$apply();
+						}
+					});
 };
 
 /**
@@ -73,9 +76,9 @@ signin = function(mode, callback) {
 /**
  * Presents the user with the authorization popup.
  */
-authenticate = function($scope, $location) {
+authenticate = function($http, $scope, $location) {
 	if (!$scope.signed) {
-		signin(false, userAuthenticated($scope, $location));
+		signin(false, userAuthenticated($http, $scope, $location));
 	} else {
 		$scope.signed = false;
 		$location.path('/login');
@@ -86,11 +89,13 @@ authenticate = function($scope, $location) {
  * Queries for greeting the logged user.
  * 
  */
-queryGreeting = function($scope) {
-	gapi.client.helloWorld.greetings.getGreeting().execute(function(resp) {
-		$scope.greeting = resp.greeting;
-		$scope.$apply();
-	});
+queryGreeting = function($http, $scope) {
+	$http.get("https://hello-world-angularjs.appspot.com/_ah/api/helloWorld/v2/greetings")
+		 .success(function(resp, status, headers, config) {
+				$scope.greeting = resp.greeting;}) //$scope.$apply();
+		  .error(function(data, status, headers, config) {
+				console.log('got error : ' + config);
+		   });
 };
 
 /**
@@ -103,11 +108,11 @@ initialize = function(apiRoot) {
 	var apisToLoad;
 	var callback = function() {
 		if (--apisToLoad == 0) {
-			//bootstrap manually angularjs after our api are loaded
+			// bootstrap manually angularjs after our api are loaded
 			angular.bootstrap(document, [ "helloapp" ]);
 		}
 	}
 	apisToLoad = 2; // must match number of calls to gapi.client.load()
-	gapi.client.load('helloWorld', 'v1', callback, apiRoot);
+	gapi.client.load('helloWorld', 'v2', callback, apiRoot);
 	gapi.client.load('oauth2', 'v2', callback);
 };

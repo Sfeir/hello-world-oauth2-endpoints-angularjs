@@ -28,7 +28,7 @@ import com.google.appengine.api.users.User;
  * Defines Greeting API.
  *
  */
-@Api(name = "helloWorld", version = "v1", clientIds = { Ids.WEB_CLIENT_ID })
+@Api(name = "helloWorld", version = "v2", clientIds = { Ids.WEB_CLIENT_ID })
 public class GreetingV1 {
 	
 
@@ -44,7 +44,7 @@ public class GreetingV1 {
 	 *             clientIds.
 	 * @throws IOException
 	 */
-	@ApiMethod(name = "greetings.getGreeting")
+	@ApiMethod(name = "greetings.getGreeting", httpMethod = "GET", path="greetings")
 	public Greeting getGreeting(final User user) throws OAuthRequestException, IOException {
 		if (user != null) {
 			return Greeting.fromString(user.getNickname()); 
