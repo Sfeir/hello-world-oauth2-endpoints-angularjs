@@ -35,7 +35,9 @@ SCOPES = 'https://www.googleapis.com/auth/userinfo.email';
 RESPONSE_TYPE = 'token id_token';
 
 /**
- * Loads the application UI after the user has completed auth.
+ * Configures $hhtp angularjs object to use the header 'Authorizarion'
+ * with the 'token.id_token' access token got from oauth2 serveur.
+ * Sets the email and nickname of the logged user in $scope and then redirect to /home
  */
 userAuthenticated = function($http, $scope, $location) {
 	var request = gapi.client.oauth2.userinfo
@@ -87,12 +89,14 @@ authenticate = function($http, $scope, $location) {
 
 /**
  * Queries for greeting the logged user.
+ * This function uses $http angularjs object to send a GET request to 
+ * cloud endpoint. Note that $http is well configured regarding security constraints
  * 
  */
 queryGreeting = function($http, $scope) {
 	$http.get("https://hello-world-angularjs.appspot.com/_ah/api/helloWorld/v2/greetings")
-		 .success(function(resp, status, headers, config) {
-				$scope.greeting = resp.greeting;}) //$scope.$apply();
+		 .success(function(data, status, headers, config) {
+				$scope.greeting = data.greeting;})
 		  .error(function(data, status, headers, config) {
 				console.log('got error : ' + config);
 		   });
@@ -108,7 +112,7 @@ initialize = function(apiRoot) {
 	var apisToLoad;
 	var callback = function() {
 		if (--apisToLoad == 0) {
-			// bootstrap manually angularjs after our api are loaded
+			// bootstrap manually angularjs after our apis are loaded
 			angular.bootstrap(document, [ "helloapp" ]);
 		}
 	}
