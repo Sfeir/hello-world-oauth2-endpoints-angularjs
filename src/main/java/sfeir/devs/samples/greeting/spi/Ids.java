@@ -19,5 +19,5 @@ package sfeir.devs.samples.greeting.spi;
  * Contains the client IDs for allowed clients consuming helloWorld API.
  */
 public class Ids {
-  public static final String WEB_CLIENT_ID = "81961503995-lsc5io2g1phnfvlpkcdflcpvk05m286v.apps.googleusercontent.com";
+  public static final String WEB_CLIENT_ID = "your client id";
 }
