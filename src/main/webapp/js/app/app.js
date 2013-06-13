@@ -18,7 +18,7 @@ app.service('logginService', function($rootScope, $location) {
 	    };
 	});
 
-app.controller('LoginController', function ($scope, $location,logginService){
+app.controller('LoginController', function ($scope,logginService){
 	$scope.auth = logginService.auth();
 });
 
