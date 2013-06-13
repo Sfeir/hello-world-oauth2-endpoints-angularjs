@@ -16,13 +16,13 @@ app.service('logginService', function($rootScope, $location) {
 	    this.auth = function ($http){
 	    	authenticate($http, $rootScope, $location);
 	    };
-	});
+});
 
-app.controller('LoginController', function ($http, $scope, $location,logginService){
+app.controller('LoginController', function ($http, logginService){
 	$scope.auth = logginService.auth($http);
 });
 
-app.controller('HomeController',function ($scope,$location){
+app.controller('HomeController',function ($scope, $location){
 	if(!$scope.signed){
 		$location.path('/login');
 	}
